@@ -6,15 +6,15 @@ void add_pattern(Flags* flags, const char* pat) {
   if (flags->pattern_count == 0) {
     snprintf(flags->pattern, sizeof(flags->pattern), "%s", pat);
   } else {
-        strncat(flags->pattern, "|",
+    strncat(flags->pattern, "|",
             sizeof(flags->pattern) - strlen(flags->pattern) - 1);
-        strncat(flags->pattern, pat,
+    strncat(flags->pattern, pat,
             sizeof(flags->pattern) - strlen(flags->pattern) - 1);
   }
   flags->pattern_count++;
 }
 
-void parse_argc(int argc, char** argv, Flags* flags) {
+void parse_args(int argc, char** argv, Flags* flags) {
   int opt;
   memset(flags, 0, sizeof(Flags));
 
@@ -39,8 +39,8 @@ void parse_argc(int argc, char** argv, Flags* flags) {
       case 'n':
         flags->n = 1;
         break;
-        default:
-        fprintf(stderr, "usage: s21_grep [-eivln] [pattern] [file ...]\n");
+      default:
+        fprintf(stderr, "usage: s21_grep [-eivcln] [pattern] [file ...]\n");
         exit(1);
     }
   }
@@ -50,7 +50,7 @@ void parse_argc(int argc, char** argv, Flags* flags) {
   }
 }
 
-void grep_file(const char* filename, Flags * flags, regex_t* re,
+void grep_file(const char* filename, Flags* flags, regex_t* re,
                int multiple_files) {
   FILE* file = fopen(filename, "r");
   if (!file) {
@@ -80,10 +80,12 @@ void grep_file(const char* filename, Flags * flags, regex_t* re,
       if (flags->c || flags->l) {
         continue;
       }
+
       if (multiple_files) {
         printf("%s:", filename);
       }
-      if(flags->n) { printf("%d:", line_num);
+      if (flags->n) {
+        printf("%d:", line_num);
       }
       printf("%s", line);
       if (line[read - 1] != '\n') {
@@ -110,12 +112,12 @@ void grep_file(const char* filename, Flags * flags, regex_t* re,
 
 int main(int argc, char** argv) {
   if (argc < 3) {
-    fprintf(stderr, "usage: s21_grep [_eivcln] [pattern] [file ...]\n");
+    fprintf(stderr, "usage: s21_grep [-eivcln] [pattern] [file ...]\n");
     return 1;
   }
 
   Flags flags;
-  parse_argc(argc, argv, &flags);
+  parse_args(argc, argv, &flags);
 
   if (flags.pattern_count == 0) {
     fprintf(stderr, "s21_grep: no pattern provided\n");
@@ -124,7 +126,7 @@ int main(int argc, char** argv) {
 
   int cflags = REG_EXTENDED;
   if (flags.i) {
-    cflags = REG_ICASE;
+    cflags |= REG_ICASE;
   }
 
   regex_t re;
@@ -138,7 +140,7 @@ int main(int argc, char** argv) {
   int multiple_files = (file_count > 1);
 
   for (int i = files_start; i < argc; i++) {
-        grep_file(argv[i], &flags, &re, multiple_files);
+    grep_file(argv[i], &flags, &re, multiple_files);
   }
 
   regfree(&re);

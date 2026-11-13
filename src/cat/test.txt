@@ -1,7 +1,7 @@
 Birinchi qator: Oddiy matn.
-Ikkinchi qator: Bu yerda    Tab bor.
+	Ikkinchi qator: Bu yerda	Tab bor.
 
 
-Uchinchi qator: Yuqorida 2 ta ketma-ket bosh qator qoldirildi.
-Tortimchi qator:    probelllar bor.
-Beshimchi: Oxirgi qator.
+Uchinchi qator: Yuqorida 2 ta ketma-ket bo'sh qator qoldirildi.
+To'rtinchi qator:     Probellar bor.   
+Beshinchi: Oxirgi qator.

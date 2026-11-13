@@ -52,7 +52,7 @@ void process_file(FILE* file, Flags flags) {
   int squeeze = 0;
 
   while ((ch = fgetc(file)) != EOF) {
-    if (flags.s && prev_ch == 'n' && ch == '\n') {
+    if (flags.s && prev_ch == '\n' && ch == '\n') {
       if (squeeze) continue;
       squeeze = 1;
     } else {
@@ -71,7 +71,7 @@ void process_file(FILE* file, Flags flags) {
       putchar('$');
     }
 
-    if ((flags.t || flags.T) && ch == '\n') {
+    if ((flags.t || flags.T) && ch == '\t') {
       printf("^I");
       prev_ch = ch;
       continue;

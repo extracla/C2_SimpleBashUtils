@@ -4,6 +4,6 @@ C programming is awesome
 hello from Tashkent
 unix utilities
 TESTING uppercase and lowecase
-12345 numbers test 
+12345 numbers test
 another line with Hello
 end of file
